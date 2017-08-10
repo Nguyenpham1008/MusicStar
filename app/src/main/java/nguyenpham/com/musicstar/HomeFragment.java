@@ -19,6 +19,8 @@ import android.widget.TextView;
 
 import java.io.IOException;
 
+import nguyenpham.com.model.Music;
+
 /**
  * Created by Quang Nguyen on 8/3/2017.
  */
@@ -33,6 +35,7 @@ public class HomeFragment extends Fragment {
     int flagPlay=0;
     MediaPlayer mpintro;
     int length;
+    int flag=0;
 
 
 
@@ -52,26 +55,21 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
-    private void getDataFromMainActivity() {
-        String url = getArguments().getString("RESULT"); // your URL here
-        mpintro.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        try {
-            mpintro.setDataSource(url);
-            mpintro.prepare(); // might take long! (for buffering, etc)
-            // mpintro.setLooping(true);
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(flag>0) {
+            if(!((MainActivity) getActivity()).getData().getFilePath().equals("")) {
+                Music music = new Music(((MainActivity) getActivity()).getData().getSong(),
+                        ((MainActivity) getActivity()).getData().getSinger(),
+                        ((MainActivity) getActivity()).getData().getFilePath());
 
-            //Set Song and Singer
-            txtSong.setText(getArguments().getString("TITLE"));
-            txtSinger.setText(getArguments().getString("ARTISH"));
-
-            //Change icon start
-            btnPlay.setBackgroundResource(R.drawable.ic_pause_music);
-            flagPlay++;
-            mpintro.start();
-        } catch (IOException e) {
-            e.printStackTrace();
+                playOnline(music);
+            }
         }
+        flag++;
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -83,34 +81,14 @@ public class HomeFragment extends Fragment {
                 String result=data.getStringExtra("filePath");
                 String title = data.getStringExtra("title");
                 String artish = data.getStringExtra("artish");
+                Music music= new Music(title,artish,result);
+                playOffline(music);
 
-                mpintro = MediaPlayer.create(getActivity(), Uri.parse(result));
-               // mpintro.setLooping(true);
 
-                //Set Song and Singer
-                txtSong.setText(title);
-                txtSinger.setText(artish);
-
-                //Change icon start
-                btnPlay.setBackgroundResource(R.drawable.ic_pause_music);
-                flagPlay++;
-                mpintro.start();
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
             }
-        }else if (requestCode == REQUEST_LIST_MUSIC_ONLINE)
-            if(resultCode == Activity.RESULT_OK){
-
-                //Get data from ListMusicActivity
-                String result=data.getStringExtra("filePath");
-                String title = data.getStringExtra("title");
-                String artish = data.getStringExtra("artish");
-
-
-            }
-        if (resultCode == Activity.RESULT_CANCELED) {
-            //Write your code if there's no result
         }
     }
 
@@ -130,7 +108,7 @@ public class HomeFragment extends Fragment {
         btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                playMusic();
+                playPauseMusic();
             }
         });
     }
@@ -146,12 +124,11 @@ public class HomeFragment extends Fragment {
 
     }
 
-    private void playMusic() {
+    private void playPauseMusic() {
         if(flagPlay%2==0)
         {
             //Change icon when resume
             btnPlay.setBackgroundResource(R.drawable.ic_pause_music);
-
             //Start at the last positon
             mpintro.seekTo(length);
             mpintro.start();
@@ -166,6 +143,40 @@ public class HomeFragment extends Fragment {
             length=mpintro.getCurrentPosition();
             flagPlay++;
         }
+    }
+
+    private void playOnline(Music music)
+    {
+        txtSinger.setText(music.getSinger());
+        txtSong.setText(music.getSong());
+        String url = (music.getFilePath());
+        // your URL here
+        mpintro = new MediaPlayer();
+        mpintro.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        try {
+            mpintro.setDataSource(url);
+            mpintro.prepare(); // might take long! (for buffering, etc)
+            btnPlay.setBackgroundResource(R.drawable.ic_pause_music);
+            flagPlay++;
+            mpintro.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void playOffline(Music music)
+    {
+        mpintro = MediaPlayer.create(getActivity(), Uri.parse(music.getFilePath()));
+        // mpintro.setLooping(true);
+
+        //Set Song and Singer
+        txtSong.setText(music.getSong());
+        txtSinger.setText(music.getSinger());
+
+        //Change icon start
+        btnPlay.setBackgroundResource(R.drawable.ic_pause_music);
+        flagPlay++;
+        mpintro.start();
     }
 
 }

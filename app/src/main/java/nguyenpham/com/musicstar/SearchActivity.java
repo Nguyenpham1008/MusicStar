@@ -3,7 +3,7 @@ package nguyenpham.com.musicstar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -21,12 +21,14 @@ import java.util.ArrayList;
 import nguyenpham.com.adapter.ListMusicAdapter;
 import nguyenpham.com.model.Music;
 
-public class SearchActivity extends AppCompatActivity {
+public class SearchActivity extends FragmentActivity {
     SearchView srvMusic;
     DatabaseReference mData;
     ArrayList<Music> listMusicOnline;
     ListView lvList;
     ListMusicAdapter listMusicAdapter;
+
+    Music music = new Music("Until you","Sakira","");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +67,7 @@ public class SearchActivity extends AppCompatActivity {
                 returnIntent.putExtra("artish",artish);
                 setResult(Activity.RESULT_OK,returnIntent);
                 finish();
+
             }
         });
     }
@@ -99,5 +102,10 @@ public class SearchActivity extends AppCompatActivity {
 
                 }
             });
+    }
+
+    public Music sendData()
+    {
+        return music;
     }
 }

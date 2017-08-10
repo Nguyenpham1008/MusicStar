@@ -1,5 +1,6 @@
 package nguyenpham.com.musicstar;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -14,12 +15,16 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TabHost;
 
+import nguyenpham.com.model.Music;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     TabHost tabHost;
     ImageButton btnSearch,btnList;
     Integer REQUEST_LIST_MUSIC_ONLINE = 2;
+
+    Music music = new Music("","","");
 
 
 
@@ -46,6 +51,24 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_LIST_MUSIC_ONLINE)
+            if(resultCode == Activity.RESULT_OK){
+
+                //Get data from ListMusicActivity
+                String result=data.getStringExtra("filePath");
+                String title = data.getStringExtra("title");
+                String artish = data.getStringExtra("artish");
+
+                music.setFilePath(result);
+                music.setSinger(artish);
+                music.setSong(title);
+
+
+            }
+        if (resultCode == Activity.RESULT_CANCELED) {
+            //Write your code if there's no result
+        }
 
     }
 
@@ -88,6 +111,7 @@ public class MainActivity extends AppCompatActivity
         tab2.setIndicator("Personal");
         tabHost.addTab(tab2);
     }
+
 
     @Override
     public void onBackPressed() {
@@ -147,5 +171,10 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public Music getData()
+    {
+        return music;
     }
 }
