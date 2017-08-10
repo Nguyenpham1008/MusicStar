@@ -1,148 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linear_home"
+    android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <RelativeLayout
+    <ImageButton
+        android:id="@+id/btnFavorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/ic_like_music"
+        app:srcCompat="@android:color/transparent" />
+
+    <ImageButton
+        android:id="@+id/btnListMusic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/btnFavorite"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/ic_list_music"
+        app:srcCompat="@android:color/transparent" />
+
+    <ImageButton
+        android:id="@+id/btnPlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btnListMusic"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/ic_play_music"
+        app:srcCompat="@android:color/transparent" />
+
+    <ImageButton
+        android:id="@+id/btnPrevious"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/btnPlay"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="17dp"
+        android:layout_marginRight="17dp"
+        android:layout_toLeftOf="@+id/btnPlay"
+        android:layout_toStartOf="@+id/btnPlay"
+        android:background="@drawable/ic_previous_music"
+        app:srcCompat="@android:color/transparent" />
+
+    <ImageButton
+        android:id="@+id/btnNext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/btnPrevious"
+        android:layout_marginLeft="18dp"
+        android:layout_marginStart="18dp"
+        android:layout_toEndOf="@+id/btnPlay"
+        android:layout_toRightOf="@+id/btnPlay"
+        android:background="@drawable/ic_next_music"
+        app:srcCompat="@android:color/transparent" />
+
+    <SeekBar
+        android:id="@+id/seekBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btnPlay"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp" />
 
-        <LinearLayout
-            android:id="@+id/linearLayout2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="10dp"
-            android:orientation="vertical">
+    <TextView
+        android:id="@+id/txt_name_singer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/seekBar"
+        android:layout_alignLeft="@+id/btnFavorite"
+        android:layout_alignStart="@+id/btnFavorite"
+        android:layout_marginBottom="17dp"
+        android:text="Shayne Ward"
+        android:textSize="18sp" />
 
-            <include
-                layout="@layout/image_music"
-                layout_width="match_parent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+    <TextView
+        android:id="@+id/txt_music_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/txt_name_singer"
+        android:layout_alignLeft="@+id/txt_name_singer"
+        android:layout_alignStart="@+id/txt_name_singer"
+        android:layout_marginBottom="12dp"
+        android:text="Until you"
+        android:textSize="30sp" />
 
-        <TextView
-            android:id="@+id/txt_music_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/linearLayout2"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="18dp"
-            android:layout_toStartOf="@+id/linearLayout2"
-            android:text="Until you"
-            android:textSize="30sp" />
+    <include
+        layout="@layout/image_music"
+        layout_alignParentTop="true"
+        layout_centerHorizontal="true"
+        layout_marginTop="143dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/txt_music_name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp" />
 
-        <TextView
-            android:id="@+id/txt_name_singer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/txt_music_name"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignStart="@+id/txt_music_name"
-            android:layout_below="@+id/txt_music_name"
-            android:text="Shayne Ward"
-            android:textSize="18sp" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <SeekBar
-            android:id="@+id/seekBar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/linearLayout5"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="30dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp" />
-
-        <ImageButton
-            android:id="@+id/btnNext"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/btnPrevious"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@+id/linearLayout4"
-            android:layout_toStartOf="@+id/linearLayout4"
-            android:background="@drawable/ic_next_music"
-            app:srcCompat="@android:color/transparent" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_centerVertical="false"
-            android:orientation="vertical"
-            android:id="@+id/linearLayout5">
-
-            <ImageButton
-                android:id="@+id/btnPlay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ic_play_music"
-                app:srcCompat="@android:color/transparent" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linearLayout4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:orientation="vertical">
-
-            <ImageButton
-                android:id="@+id/btnListMusic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/ic_list_music"
-                app:srcCompat="@android:color/transparent" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linearLayout3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="5dp"
-            android:orientation="vertical">
-
-            <ImageButton
-                android:id="@+id/btnFavorite"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ic_like_music"
-                app:srcCompat="@android:color/transparent" />
-        </LinearLayout>
-
-        <ImageButton
-            android:id="@+id/btnPrevious"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="12dp"
-            android:layout_marginStart="12dp"
-            android:layout_toEndOf="@+id/linearLayout3"
-            android:layout_toRightOf="@+id/linearLayout3"
-            android:background="@drawable/ic_previous_music"
-            app:srcCompat="@android:color/transparent" />
-    </RelativeLayout>
-</LinearLayout>
+</RelativeLayout>

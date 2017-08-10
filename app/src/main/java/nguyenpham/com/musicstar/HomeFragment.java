@@ -14,7 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -26,32 +26,27 @@ import nguyenpham.com.model.Music;
  */
 
 public class HomeFragment extends Fragment {
-    LinearLayout linear_home;
+    RelativeLayout linear_home;
     TextView txtSong,txtSinger;
     ImageButton btnListMusic,btnFavorite,btnPlay,btnNext,btnPrevious,btnSearch,btnMenu;
     Integer REQUEST_LIST_MUSIC = 1;
     Integer REQUEST_LIST_MUSIC_ONLINE = 2;
 
     int flagPlay=0;
-    MediaPlayer mpintro;
+    MediaPlayer mpintro = new MediaPlayer();
     int length;
     int flag=0;
-
-
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        // Đọc file xml tạo ra đối tượng View.
-
+        // Đọc file xml tạo ra đối tượng View
         // inflate(@LayoutRes int resource, @Nullable ViewGroup root, boolean attachToRoot)
-
         View view= inflater.inflate(R.layout.fragment_home, container, false);
-        linear_home = view.findViewById(R.id.linear_home);
-        linear_home.setBackgroundColor(Color.parseColor("#F1F1F1"));
         addControls(view);
         addEvents(view);
+        linear_home.setBackgroundColor(Color.parseColor("#CFD8DC"));
         return view;
     }
 
@@ -63,13 +58,12 @@ public class HomeFragment extends Fragment {
                 Music music = new Music(((MainActivity) getActivity()).getData().getSong(),
                         ((MainActivity) getActivity()).getData().getSinger(),
                         ((MainActivity) getActivity()).getData().getFilePath());
-
-                playOnline(music);
+                if(!mpintro.isPlaying())
+                    playOnline(music);
             }
         }
         flag++;
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -83,8 +77,6 @@ public class HomeFragment extends Fragment {
                 String artish = data.getStringExtra("artish");
                 Music music= new Music(title,artish,result);
                 playOffline(music);
-
-
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
@@ -121,6 +113,7 @@ public class HomeFragment extends Fragment {
         btnPlay = view.findViewById(R.id.btnPlay);
         btnPrevious = view.findViewById(R.id.btnPrevious);
         btnNext = view.findViewById(R.id.btnNext);
+        linear_home = view.findViewById(R.id.relativeLayout);
 
     }
 
@@ -151,7 +144,6 @@ public class HomeFragment extends Fragment {
         txtSong.setText(music.getSong());
         String url = (music.getFilePath());
         // your URL here
-        mpintro = new MediaPlayer();
         mpintro.setAudioStreamType(AudioManager.STREAM_MUSIC);
         try {
             mpintro.setDataSource(url);
