@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "583715949971",
+    "firebase_url": "https://musicstar-6b042.firebaseio.com",
+    "project_id": "musicstar-6b042",
+    "storage_bucket": "musicstar-6b042.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:583715949971:android:512a4e09d42c43ed",
+        "android_client_info": {
+          "package_name": "nguyenpham.com.musicstar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "583715949971-golj3a5ng5jsrnd6orpd6gc74fpoidf5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "nguyenpham.com.musicstar",
+            "certificate_hash": "180e0976ae7be8446e2320f7f0765b31baa7f672"
+          }
+        },
+        {
+          "client_id": "583715949971-kcvjui629eg36rjhlu64tht6uc2mf7tc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJzobXjB3Z1yJHvhCdlgvIn2m0MGm8wQ8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "583715949971-kcvjui629eg36rjhlu64tht6uc2mf7tc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

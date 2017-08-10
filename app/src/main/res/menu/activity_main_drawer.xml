@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_nof"
+            android:icon="@drawable/ic_nav_notif"
+            android:title="Notification"
+            app:actionLayout="@layout/switch_layout"/>
+        <item
+            android:id="@+id/nav_scan_music"
+            android:icon="@drawable/ic_scan"
+            android:title="Scan music" />
+    </group>
+
+    <item android:title="Settings">
+        <menu>
+            <item
+                android:id="@+id/nav_download"
+                android:icon="@drawable/ic_nav_download"
+                android:title="Dowload over mobile network"
+                app:actionLayout="@layout/switch_layout"
+                />
+            <item
+                android:id="@+id/nav_more_setting"
+                android:icon="@drawable/ic_nav_more_setting"
+                android:title="More settings" />
+        </menu>
+    </item>
+
+    <item android:title="Infomation">
+        <menu>
+            <item
+                android:id="@+id/nav_version"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Version" />
+            <item
+                android:id="@+id/nav_feedback"
+                android:icon="@drawable/ic_nav_report"
+                android:title="Report Feedback" />
+
+            <item
+                android:id="@+id/nav_rate"
+                android:icon="@drawable/ic_nav_vote"
+                android:title="Rate Music Star" />
+        </menu>
+    </item>
+
+</menu>
