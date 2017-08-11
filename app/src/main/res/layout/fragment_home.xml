@@ -71,7 +71,10 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/btnPlay"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:theme="@style/MySeekBarTheme"/>
 
     <TextView
         android:id="@+id/txt_name_singer"
@@ -105,5 +108,24 @@
         android:layout_above="@+id/txt_music_name"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="15dp" />
+
+    <TextView
+        android:id="@+id/txtStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btnPrevious"
+        android:layout_alignLeft="@+id/seekBar"
+        android:layout_alignStart="@+id/seekBar"
+        android:layout_marginBottom="10dp"
+        android:text="0:0" />
+
+    <TextView
+        android:id="@+id/txtStop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/seekBar"
+        android:layout_alignRight="@+id/seekBar"
+        android:layout_alignTop="@+id/txtStart"
+        android:text="0:0" />
 
 </RelativeLayout>

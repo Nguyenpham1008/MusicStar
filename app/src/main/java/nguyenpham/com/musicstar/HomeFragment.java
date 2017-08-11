@@ -8,6 +8,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,9 +16,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import java.io.IOException;
+import java.util.Timer;
 
 import nguyenpham.com.model.Music;
 
@@ -27,10 +30,13 @@ import nguyenpham.com.model.Music;
 
 public class HomeFragment extends Fragment {
     RelativeLayout linear_home;
-    TextView txtSong,txtSinger;
+    TextView txtSong,txtSinger,txtStart,txtStop;
     ImageButton btnListMusic,btnFavorite,btnPlay,btnNext,btnPrevious,btnSearch,btnMenu;
+    SeekBar seekBar;
+    Timer timer;
     Integer REQUEST_LIST_MUSIC = 1;
     Integer REQUEST_LIST_MUSIC_ONLINE = 2;
+    private Handler mHandler = new Handler();
 
     int flagPlay=0;
     MediaPlayer mpintro = new MediaPlayer();
@@ -58,8 +64,12 @@ public class HomeFragment extends Fragment {
                 Music music = new Music(((MainActivity) getActivity()).getData().getSong(),
                         ((MainActivity) getActivity()).getData().getSinger(),
                         ((MainActivity) getActivity()).getData().getFilePath());
-                if(!mpintro.isPlaying())
+                {
+                    //Set data empty again
+                    ((MainActivity) getActivity()).getData().setFilePath("");
+                    //Call to play online
                     playOnline(music);
+                }
             }
         }
         flag++;
@@ -103,17 +113,39 @@ public class HomeFragment extends Fragment {
                 playPauseMusic();
             }
         });
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                if(mpintro != null && b){
+                    mpintro.seekTo(i);
+                    mpintro.start();
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
     }
 
     private void addControls(View view) {
         txtSong = view.findViewById(R.id.txt_music_name);
         txtSinger = view.findViewById(R.id.txt_name_singer);
+        txtStart = view.findViewById(R.id.txtStart);
+        txtStop = view.findViewById(R.id.txtStop);
         btnFavorite = view.findViewById(R.id.btnFavorite);
         btnListMusic = view.findViewById(R.id.btnListMusic);
         btnPlay = view.findViewById(R.id.btnPlay);
         btnPrevious = view.findViewById(R.id.btnPrevious);
         btnNext = view.findViewById(R.id.btnNext);
         linear_home = view.findViewById(R.id.relativeLayout);
+        seekBar = view.findViewById(R.id.seekBar);
 
     }
 
@@ -140,9 +172,11 @@ public class HomeFragment extends Fragment {
 
     private void playOnline(Music music)
     {
+        mpintro.release();
         txtSinger.setText(music.getSinger());
         txtSong.setText(music.getSong());
         String url = (music.getFilePath());
+        mpintro = new MediaPlayer();
         // your URL here
         mpintro.setAudioStreamType(AudioManager.STREAM_MUSIC);
         try {
@@ -150,7 +184,10 @@ public class HomeFragment extends Fragment {
             mpintro.prepare(); // might take long! (for buffering, etc)
             btnPlay.setBackgroundResource(R.drawable.ic_pause_music);
             flagPlay++;
+            seekBar.setMax(mpintro.getDuration());
+            txtStop.setText(milliSecondsToTimer(mpintro.getDuration()));
             mpintro.start();
+            runSeekBar();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -158,6 +195,7 @@ public class HomeFragment extends Fragment {
 
     private void playOffline(Music music)
     {
+        mpintro.release();
         mpintro = MediaPlayer.create(getActivity(), Uri.parse(music.getFilePath()));
         // mpintro.setLooping(true);
 
@@ -168,7 +206,71 @@ public class HomeFragment extends Fragment {
         //Change icon start
         btnPlay.setBackgroundResource(R.drawable.ic_pause_music);
         flagPlay++;
+        seekBar.setMax(mpintro.getDuration());
+        txtStop.setText(milliSecondsToTimer(mpintro.getDuration()));
         mpintro.start();
+        runSeekBar();
     }
+
+    //Thread update timer every second
+    private void runSeekBar()
+    {
+        getActivity().runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                int currentDuration;
+                if(mpintro != null){
+                    if(seekBar.getProgress()!=mpintro.getDuration()) {
+                        int mCurrentPosition = mpintro.getCurrentPosition();
+                        seekBar.setProgress(mCurrentPosition);
+                        currentDuration = mpintro.getCurrentPosition();
+                        updatePlayer(currentDuration);
+                        mHandler.postDelayed(this, 1000);
+                    }else
+                    {
+                        //Set bacground icon Play and reset seekbar
+                        btnPlay.setBackgroundResource(R.drawable.ic_play_music);
+                        seekBar.setProgress(0);
+                    }
+                }
+            }
+        });
+
+    }
+
+    //Set time
+    private void updatePlayer(int currentDuration){
+        txtStart.setText("" + milliSecondsToTimer((long) currentDuration));
+    }
+
+   //Convert miliseconds to Minutes
+    public  String milliSecondsToTimer(long milliseconds) {
+        String finalTimerString = "";
+        String secondsString = "";
+
+        // Convert total duration into time
+        int hours = (int) (milliseconds / (1000 * 60 * 60));
+        int minutes = (int) (milliseconds % (1000 * 60 * 60)) / (1000 * 60);
+        int seconds = (int) ((milliseconds % (1000 * 60 * 60)) % (1000 * 60) / 1000);
+        // Add hours if there
+        if (hours > 0) {
+            finalTimerString = hours + ":";
+        }
+
+        // Prepending 0 to seconds if it is one digit
+        if (seconds < 10) {
+            secondsString = "0" + seconds;
+        } else {
+            secondsString = "" + seconds;
+        }
+
+        finalTimerString = finalTimerString + minutes + ":" + secondsString;
+
+        // return timer string
+        return finalTimerString;
+    }
+
+
 
 }

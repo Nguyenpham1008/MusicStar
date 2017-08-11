@@ -3,20 +3,15 @@ package nguyenpham.com.musicstar;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.SimpleAdapter;
-import android.widget.Toast;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -36,7 +31,6 @@ public class ListMusicActivity extends AppCompatActivity {
             .getPath() + "/";
     private ArrayList<HashMap<String, String>> songsList = new ArrayList<HashMap<String, String>>();
     private String mp3Pattern = ".mp3";
-
     // Constructor
     public ListMusicActivity() {
 
