@@ -81,7 +81,7 @@ public class SearchActivity extends FragmentActivity {
 
     private void LoadMusic(String query)
     {
-            mData.child("ListMusic").child(query).addListenerForSingleValueEvent(new ValueEventListener() {
+            mData.child("Database").child("ListMusic").child(query).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Music music = dataSnapshot.getValue(Music.class);
