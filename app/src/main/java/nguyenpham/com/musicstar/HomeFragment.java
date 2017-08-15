@@ -2,6 +2,7 @@ package nguyenpham.com.musicstar;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.media.AudioManager;
@@ -20,9 +21,10 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import java.io.IOException;
-import java.util.Timer;
 
 import nguyenpham.com.model.Music;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by Quang Nguyen on 8/3/2017.
@@ -33,16 +35,15 @@ public class HomeFragment extends Fragment {
     TextView txtSong,txtSinger,txtStart,txtStop;
     ImageButton btnListMusic,btnFavorite,btnPlay,btnNext,btnPrevious,btnSearch,btnMenu;
     SeekBar seekBar;
-    Timer timer;
-    Integer REQUEST_LIST_MUSIC = 1;
-    Integer REQUEST_LIST_MUSIC_ONLINE = 2;
+
+    int REQUEST_LIST_MUSIC = 1;
     private Handler mHandler = new Handler();
 
     int flagPlay=0;
     MediaPlayer mpintro = new MediaPlayer();
     int length;
     int flag=0;
-
+    String LAST_MUSIC = "LASTMUSIC";
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,9 +54,9 @@ public class HomeFragment extends Fragment {
         addControls(view);
         addEvents(view);
         linear_home.setBackgroundColor(Color.parseColor("#CFD8DC"));
+        loadLastMusic();
         return view;
     }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -150,19 +151,28 @@ public class HomeFragment extends Fragment {
     }
 
     private void playPauseMusic() {
+
         if(flagPlay%2==0)
         {
-            //Change icon when resume
-            btnPlay.setBackgroundResource(R.drawable.ic_pause_music);
-            //Start at the last positon
-            mpintro.seekTo(length);
-            mpintro.start();
-            flagPlay++;
+            {
+//                //Play again the previous music
+//                if (mpintro.getCurrentPosition() == 0) {
+//                    mpintro.start();
+//                    txtStart.setText("0:0");
+//                    runSeekBar();
+//                }
+                //Change icon when resume
+                btnPlay.setBackgroundResource(R.drawable.ic_pause_music);
+                //Start at the last positon
+                mpintro.seekTo(length);
+                mpintro.start();
+                flagPlay++;
+                runSeekBar();
+            }
         }else
         {
             //Change icon when pause
             btnPlay.setBackgroundResource(R.drawable.ic_play_music);
-
             //Pause and save currentpostion
             mpintro.pause();
             length=mpintro.getCurrentPosition();
@@ -197,7 +207,6 @@ public class HomeFragment extends Fragment {
     {
         mpintro.release();
         mpintro = MediaPlayer.create(getActivity(), Uri.parse(music.getFilePath()));
-        // mpintro.setLooping(true);
 
         //Set Song and Singer
         txtSong.setText(music.getSong());
@@ -209,6 +218,7 @@ public class HomeFragment extends Fragment {
         seekBar.setMax(mpintro.getDuration());
         txtStop.setText(milliSecondsToTimer(mpintro.getDuration()));
         mpintro.start();
+        saveLastMusic(music.getSong(),music.getSinger(),music.getFilePath(),milliSecondsToTimer(mpintro.getDuration()));
         runSeekBar();
     }
 
@@ -221,7 +231,7 @@ public class HomeFragment extends Fragment {
             public void run() {
                 int currentDuration;
                 if(mpintro != null){
-                    if(seekBar.getProgress()!=mpintro.getDuration()) {
+                    if(seekBar.getProgress()!= mpintro.getDuration()) {
                         int mCurrentPosition = mpintro.getCurrentPosition();
                         seekBar.setProgress(mCurrentPosition);
                         currentDuration = mpintro.getCurrentPosition();
@@ -232,20 +242,21 @@ public class HomeFragment extends Fragment {
                         //Set bacground icon Play and reset seekbar
                         btnPlay.setBackgroundResource(R.drawable.ic_play_music);
                         seekBar.setProgress(0);
+                        mpintro.seekTo(0);
+                        flagPlay++;
                     }
                 }
             }
         });
 
     }
-
     //Set time
     private void updatePlayer(int currentDuration){
         txtStart.setText("" + milliSecondsToTimer((long) currentDuration));
     }
 
    //Convert miliseconds to Minutes
-    public  String milliSecondsToTimer(long milliseconds) {
+    private String milliSecondsToTimer(long milliseconds) {
         String finalTimerString = "";
         String secondsString = "";
 
@@ -272,5 +283,25 @@ public class HomeFragment extends Fragment {
     }
 
 
+    private void loadLastMusic()
+    {
+        SharedPreferences prefs = getActivity().getSharedPreferences(LAST_MUSIC, MODE_PRIVATE);
+        txtSong.setText(prefs.getString("song","1 2 3 4"));
+        txtSinger.setText(prefs.getString("singer","Chi Dân"));
+        txtStop.setText(prefs.getString("time","0:0"));
+        String filePath = prefs.getString("filePath","/storage/emulated/0/Download/1234-Chi-Dan.mp3");
+        mpintro = MediaPlayer.create(getActivity(), Uri.parse(filePath));
+    }
+
+    private void saveLastMusic(String song,String singer,String filePath,String time)
+    {
+        SharedPreferences.Editor editor = getActivity().getSharedPreferences(LAST_MUSIC, MODE_PRIVATE).edit();
+        editor.putString("song", song);
+        editor.putString("singer", singer);
+        editor.putString("filePath",filePath);
+        editor.putString("time",time);
+        editor.apply();
+
+    }
 
 }

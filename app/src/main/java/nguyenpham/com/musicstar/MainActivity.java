@@ -1,19 +1,31 @@
 package nguyenpham.com.musicstar;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TabHost;
+import android.widget.Toast;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import nguyenpham.com.model.Music;
 
@@ -24,10 +36,21 @@ public class MainActivity extends AppCompatActivity
     ImageButton btnSearch,btnList;
     Integer REQUEST_LIST_MUSIC_ONLINE = 2;
 
+    String DATABASE_NAME="ListMusic.sqlite";
+    String DB_PATH_SUFFIX = "/databases/";
+    SQLiteDatabase database=null;
+
     Music music = new Music("","","");
 
 
+    final String MEDIA_PATH = Environment.getExternalStorageDirectory()
+            .getPath() + "/";
+    private ArrayList<HashMap<String, String>> songsList = new ArrayList<HashMap<String, String>>();
 
+    // Constructor
+    public MainActivity() {
+
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +67,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        importDatabaseFromAssetToMemory();
         addControls();
         addEvents();
     }
@@ -162,6 +186,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_rate) {
 
         } else if (id == R.id.nav_scan_music) {
+            loadMusicToDatabase();
 
         }else if (id == R.id.nav_version) {
 
@@ -171,6 +196,127 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void loadMusicToDatabase() {
+        ArrayList<HashMap<String, String>> songsListData = new ArrayList<HashMap<String, String>>();
+        this.songsList = getPlayList();
+        database=openOrCreateDatabase(DATABASE_NAME,MODE_PRIVATE,null);
+        for (int i = 0; i < songsList.size(); i++) {
+            // creating new HashMap
+            HashMap<String, String> song = songsList.get(i);
+
+            // adding HashList to ArrayList
+            songsListData.add(song);
+//            Music music = new Music();
+//            music.setSong(song.get("songTitle"));
+//            music.setSinger("Unknown");
+//            music.setFilePath(song.get("songPath"));
+
+            //insert data to database
+            ContentValues row=new ContentValues();
+            row.put("song",song.get("songTitle"));
+            row.put("singer","Unknown");
+            row.put("filePath",song.get("songPath"));
+            database.insert("Music",null,row);
+        }
+    }
+
+    private void importDatabaseFromAssetToMemory() {
+        File dbFile = getDatabasePath(DATABASE_NAME);
+        if (!dbFile.exists())
+        {
+            try
+            {
+                CopyDataBaseFromAsset();
+                Toast.makeText(this, "Copy data successfully", Toast.LENGTH_LONG).show();
+            }
+            catch (Exception e)
+            {
+                Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    private void CopyDataBaseFromAsset() {
+        try
+        {
+            InputStream myInput=getAssets().open(DATABASE_NAME);
+            String outFileName = getPath();
+            File f = new File(getApplicationInfo().dataDir + DB_PATH_SUFFIX);
+            if(!f.exists())
+            {
+                f.mkdir();
+            }
+            OutputStream myOutput = new FileOutputStream(outFileName);
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = myInput.read(buffer)) > 0)
+            {
+                myOutput.write(buffer, 0, length);
+            }
+            myOutput.flush();
+            myOutput.close();
+            myInput.close();
+        }
+        catch (Exception ex)
+        {
+            Log.e("Loi_SaoChep",ex.toString());
+        }
+    }
+
+    private String getPath()
+    {
+        return getApplicationInfo().dataDir + DB_PATH_SUFFIX+ DATABASE_NAME;
+    }
+
+    //Get list music from external storage
+    public ArrayList<HashMap<String, String>> getPlayList() {
+        System.out.println(MEDIA_PATH);
+        if (MEDIA_PATH != null) {
+            File home = new File(MEDIA_PATH);
+            File[] listFiles = home.listFiles();
+            if (listFiles != null && listFiles.length > 0) {
+                for (File file : listFiles) {
+                    System.out.println(file.getAbsolutePath());
+                    if (file.isDirectory()) {
+                        scanDirectory(file);
+                    } else {
+                        addSongToList(file);
+                    }
+                }
+            }
+        }
+        // return songs list array
+        return songsList;
+    }
+
+    private void scanDirectory(File directory) {
+        if (directory != null) {
+            File[] listFiles = directory.listFiles();
+            if (listFiles != null && listFiles.length > 0) {
+                for (File file : listFiles) {
+                    if (file.isDirectory()) {
+                        scanDirectory(file);
+                    } else {
+                        addSongToList(file);
+                    }
+
+                }
+            }
+        }
+    }
+
+    private void addSongToList(File song) {
+        String mp3Pattern = ".mp3";
+        if (song.getName().endsWith(mp3Pattern)) {
+            HashMap<String, String> songMap = new HashMap<String, String>();
+            songMap.put("songTitle",
+                    song.getName().substring(0, (song.getName().length() - 4)));
+            songMap.put("songPath", song.getPath());
+            // Adding each song to SongList
+            songsList.add(songMap);
+        }
     }
 
     public Music getData()
