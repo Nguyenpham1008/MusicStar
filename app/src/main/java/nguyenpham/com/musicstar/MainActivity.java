@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity
     TabHost tabHost;
     ImageButton btnSearch,btnList;
     Integer REQUEST_LIST_MUSIC_ONLINE = 2;
+    ViewPager viewPager;
 
     String DATABASE_NAME="ListMusic.sqlite";
     String DB_PATH_SUFFIX = "/databases/";
@@ -113,10 +115,38 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+            @Override
+            public void onTabChanged(String s) {
+                int position = tabHost.getCurrentTab();
+                viewPager.setCurrentItem(position);
+            }
+        });
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                tabHost.setCurrentTab(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
 
     }
 
     private void addControls() {
+
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(adapter);
 
         btnSearch = (ImageButton) findViewById(R.id.btnSearch);
         btnList = (ImageButton) findViewById(R.id.btnList);
