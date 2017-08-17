@@ -6,8 +6,8 @@
 
     <com.mikhaellopez.circularimageview.CircularImageView
         android:id="@+id/test"
-        android:layout_width="290dp"
-        android:layout_height="290dp"
+        android:layout_width="260dp"
+        android:layout_height="260dp"
         android:background="@drawable/ic_headphones"
         app:civ_border_color="#EEEEEE"
         app:civ_border_width="4dp"

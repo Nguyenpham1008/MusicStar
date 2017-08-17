@@ -3,7 +3,6 @@ package nguyenpham.com.musicstar;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -53,7 +52,7 @@ public class HomeFragment extends Fragment {
         View view= inflater.inflate(R.layout.fragment_home, container, false);
         addControls(view);
         addEvents(view);
-        linear_home.setBackgroundColor(Color.parseColor("#CFD8DC"));
+        //linear_home.setBackgroundColor(Color.parseColor("#CFD8DC"));
         loadLastMusic();
         return view;
     }
@@ -205,7 +204,9 @@ public class HomeFragment extends Fragment {
 
     private void playOffline(Music music)
     {
-        mpintro.release();
+        if(mpintro!=null) {
+            mpintro.release();
+        }
         mpintro = MediaPlayer.create(getActivity(), Uri.parse(music.getFilePath()));
 
         //Set Song and Singer

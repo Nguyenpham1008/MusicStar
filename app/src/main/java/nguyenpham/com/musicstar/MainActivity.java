@@ -232,6 +232,7 @@ public class MainActivity extends AppCompatActivity
         ArrayList<HashMap<String, String>> songsListData = new ArrayList<HashMap<String, String>>();
         this.songsList = getPlayList();
         database=openOrCreateDatabase(DATABASE_NAME,MODE_PRIVATE,null);
+        database.execSQL("delete from Music");
         for (int i = 0; i < songsList.size(); i++) {
             // creating new HashMap
             HashMap<String, String> song = songsList.get(i);
