@@ -6,7 +6,7 @@
 
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/btnNext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="27dp"
@@ -19,13 +19,13 @@
         android:id="@+id/txtMail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView2"
+        android:layout_below="@+id/btnNext"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="14dp"
         android:text="nguyenpq.it@gmail.com" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/txt_name_singer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -42,7 +42,7 @@
         android:layout_height="50dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/textView3"
+        android:layout_below="@+id/txt_name_singer"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="12dp">
 
@@ -115,8 +115,8 @@
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView3"
-        android:layout_alignStart="@+id/textView3"
+        android:layout_alignLeft="@+id/txt_name_singer"
+        android:layout_alignStart="@+id/txt_name_singer"
         android:layout_below="@+id/relativeLayout3"
         android:layout_marginTop="25dp"
         android:text="Offline Music"

@@ -14,7 +14,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -34,6 +36,9 @@ public class HomeFragment extends Fragment {
     TextView txtSong,txtSinger,txtStart,txtStop;
     ImageButton btnListMusic,btnFavorite,btnPlay,btnNext,btnPrevious,btnSearch,btnMenu;
     SeekBar seekBar;
+
+    Animation animation;
+    ImageView imgMusic;
 
     int REQUEST_LIST_MUSIC = 1;
     private Handler mHandler = new Handler();
@@ -135,8 +140,8 @@ public class HomeFragment extends Fragment {
     }
 
     private void addControls(View view) {
-        txtSong = view.findViewById(R.id.txt_music_name);
-        txtSinger = view.findViewById(R.id.txt_name_singer);
+        txtSong = view.findViewById(R.id.txtNameSong);
+        txtSinger = view.findViewById(R.id.txtNameSinger);
         txtStart = view.findViewById(R.id.txtStart);
         txtStop = view.findViewById(R.id.txtStop);
         btnFavorite = view.findViewById(R.id.btnFavorite);
