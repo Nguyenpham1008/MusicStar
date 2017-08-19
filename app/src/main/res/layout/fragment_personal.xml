@@ -6,7 +6,7 @@
 
 
     <ImageView
-        android:id="@+id/btnNext"
+        android:id="@+id/imgImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="27dp"
@@ -19,7 +19,7 @@
         android:id="@+id/txtMail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btnNext"
+        android:layout_below="@+id/imgImage"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="14dp"
         android:text="nguyenpq.it@gmail.com" />
@@ -59,7 +59,7 @@
             app:srcCompat="@android:color/transparent" />
 
         <Button
-            android:id="@+id/button11"
+            android:id="@+id/btnUpload"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/relativeLayout2"
@@ -132,18 +132,18 @@
         android:layout_marginTop="18dp">
 
         <Button
-            android:id="@+id/button13"
+            android:id="@+id/btnDownload"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
             android:layout_marginLeft="44dp"
             android:layout_marginStart="44dp"
             android:background="@android:color/transparent"
             android:gravity="fill_vertical"
             android:paddingLeft="8dp"
-            android:text="Download"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:text="Download" />
     </RelativeLayout>
 
     <ImageView

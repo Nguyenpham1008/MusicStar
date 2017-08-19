@@ -148,7 +148,7 @@ public class HomeFragment extends Fragment {
         btnListMusic = view.findViewById(R.id.btnListMusic);
         btnPlay = view.findViewById(R.id.btnPlay);
         btnPrevious = view.findViewById(R.id.btnPrevious);
-        btnNext = view.findViewById(R.id.btnNext);
+        btnNext = view.findViewById(R.id.imgImage);
         linear_home = view.findViewById(R.id.relativeLayout);
         seekBar = view.findViewById(R.id.seekBar);
 

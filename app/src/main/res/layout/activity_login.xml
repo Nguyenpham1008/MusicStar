@@ -17,8 +17,8 @@
         android:text="Welcome"
         android:textSize="50sp" />
 
-    <ImageView
-        android:id="@+id/imageView12"
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/btnLoginFacebook"
         android:layout_width="160dp"
         android:layout_height="50dp"
         android:layout_alignParentLeft="true"
@@ -27,28 +27,27 @@
         android:layout_marginLeft="26dp"
         android:layout_marginStart="26dp"
         android:layout_marginTop="51dp"
-        android:background="@drawable/loginfacebook"
         app:srcCompat="@android:color/transparent" />
 
-    <ImageView
+    <ImageButton
         android:layout_width="160dp"
         android:layout_height="50dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/imageView12"
+        android:layout_alignTop="@+id/btnLoginFacebook"
         android:layout_marginEnd="23dp"
         android:layout_marginRight="23dp"
         android:background="@drawable/logingoogle"
         app:srcCompat="@android:color/transparent"
-        android:id="@+id/imageView16" />
+        android:id="@+id/btnLoginGoogle" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/imageView12"
-        android:layout_alignStart="@+id/imageView12"
-        android:layout_below="@+id/imageView12"
+        android:layout_alignLeft="@+id/btnLoginFacebook"
+        android:layout_alignStart="@+id/btnLoginFacebook"
+        android:layout_below="@+id/btnLoginFacebook"
         android:layout_marginTop="26dp"
         android:text="Sign in"
         android:textColor="@android:color/background_light"
@@ -58,9 +57,9 @@
         android:id="@+id/editText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/imageView16"
+        android:layout_alignEnd="@+id/btnLoginGoogle"
         android:layout_alignLeft="@+id/textView4"
-        android:layout_alignRight="@+id/imageView16"
+        android:layout_alignRight="@+id/btnLoginGoogle"
         android:layout_alignStart="@+id/textView4"
         android:layout_below="@+id/textView4"
         android:layout_marginTop="10dp"

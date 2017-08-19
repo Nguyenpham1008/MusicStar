@@ -87,17 +87,18 @@
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:background="#E8E8E8">
 
         <ImageButton
             android:id="@+id/btnFavorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/btnNext"
+            android:layout_alignBottom="@+id/imgImage"
             android:layout_marginLeft="34dp"
             android:layout_marginStart="34dp"
-            android:layout_toEndOf="@+id/btnNext"
-            android:layout_toRightOf="@+id/btnNext"
+            android:layout_toEndOf="@+id/imgImage"
+            android:layout_toRightOf="@+id/imgImage"
             android:background="@drawable/ic_love_music"
             app:srcCompat="@android:color/transparent" />
 
@@ -114,7 +115,7 @@
             app:srcCompat="@android:color/transparent" />
 
         <ImageButton
-            android:id="@+id/btnNext"
+            android:id="@+id/imgImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/btnPrevious"
