@@ -30,15 +30,18 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
-    private ImageButton btnLoginGoogle;
     private Button btnSignIn,btnForgetPass,btnCreateAccount;
     private TextView txtWelcome;
     private LoginButton btnLoginFacebook;
+    private ImageButton btnLoginGoogle;
     String TAG = "FirebaseAuth";
+    Intent returnIntent = new Intent();
 
     private CallbackManager callbackManager;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+
+    private FirebaseUser user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,8 +51,6 @@ public class LoginActivity extends AppCompatActivity {
         callbackManager = CallbackManager.Factory.create();
         addControls();
         addEvents();
-
-
     }
 
     @Override
@@ -97,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user= firebaseAuth.getCurrentUser();
+                user= firebaseAuth.getCurrentUser();
                 if(user!= null)
                 {
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
@@ -105,7 +106,6 @@ public class LoginActivity extends AppCompatActivity {
                     String email = user.getEmail();
                     Uri uri = user.getPhotoUrl();
 
-                    Intent returnIntent = new Intent();
                     returnIntent.putExtra("NAME",name);
                     returnIntent.putExtra("EMAIL",email);
                     returnIntent.putExtra("IMAGE",uri.toString());
@@ -127,7 +127,6 @@ public class LoginActivity extends AppCompatActivity {
         btnLoginGoogle = (ImageButton) findViewById(R.id.btnLoginGoogle);
         Typeface type = Typeface.createFromAsset(getAssets(),"font/VNI-Disney.ttf");
         txtWelcome.setTypeface(type);
-
         mAuth = FirebaseAuth.getInstance();
 
     }

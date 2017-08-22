@@ -1,163 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
 
-
-    <ImageView
-        android:id="@+id/imgImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="27dp"
-        android:background="@drawable/ic_man"
-        app:srcCompat="@android:color/transparent"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:id="@+id/txtMail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/imgImage"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="14dp"
-        android:text="nguyenpq.it@gmail.com" />
-
-    <TextView
-        android:id="@+id/txt_name_singer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="15dp"
-        android:layout_marginStart="15dp"
-        android:text="Online Music"
-        android:textSize="24sp" />
 
     <RelativeLayout
-        android:id="@+id/relativeLayout2"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/txt_name_singer"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="12dp">
+        android:layout_height="wrap_content"
+        android:background="#86A5A0">
 
-        <ImageView
-            android:id="@+id/imageView9"
+        <TextView
+            android:id="@+id/txtMail"
+            android:layout_marginBottom="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:background="@drawable/ic_upload"
+            android:layout_below="@+id/imgImage"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="14dp"
+            android:textColor="#FFFFFF"
+            android:text="nguyenpq.it@gmail.com" />
+
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/imgImage"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="27dp"
+            android:background="@drawable/ic_man"
             app:srcCompat="@android:color/transparent" />
 
-        <Button
-            android:id="@+id/btnUpload"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/relativeLayout2"
-            android:layout_alignStart="@+id/relativeLayout2"
-            android:layout_alignTop="@+id/relativeLayout2"
-            android:layout_marginLeft="41dp"
-            android:layout_marginStart="41dp"
-            android:layout_marginTop="8dp"
-            android:background="@android:color/transparent"
-            android:gravity="fill_vertical"
-            android:paddingLeft="8dp"
-            android:text="Upload" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/relativeLayout3"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignLeft="@+id/relativeLayout2"
-        android:layout_alignStart="@+id/relativeLayout2"
-        android:layout_below="@+id/relativeLayout2"
-        android:layout_marginTop="8dp">
-
-        <ImageView
-            android:id="@+id/imageView10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/button12"
-            android:layout_alignLeft="@+id/relativeLayout3"
-            android:layout_alignStart="@+id/relativeLayout3"
-            android:layout_marginBottom="11dp"
-            android:layout_marginLeft="17dp"
-            android:layout_marginStart="17dp"
-            android:background="@drawable/ic_playlist"
-            app:srcCompat="@android:color/transparent" />
-
-        <Button
-            android:id="@+id/button12"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/relativeLayout3"
-            android:layout_alignStart="@+id/relativeLayout3"
-            android:layout_alignTop="@+id/relativeLayout3"
-            android:layout_marginLeft="42dp"
-            android:layout_marginStart="42dp"
-            android:background="@android:color/transparent"
-            android:gravity="fill_vertical"
-            android:paddingLeft="8dp"
-            android:text="Favorites" />
-    </RelativeLayout>
-
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/txt_name_singer"
-        android:layout_alignStart="@+id/txt_name_singer"
-        android:layout_below="@+id/relativeLayout3"
-        android:layout_marginTop="25dp"
-        android:text="Offline Music"
-        android:textSize="24sp" />
+        android:orientation="horizontal">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#6F9294">
+
+            <ImageButton
+                android:id="@+id/btnUpload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="27dp"
+                android:background="@drawable/ic_personal_upload"
+                app:srcCompat="@android:color/transparent" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btnUpload"
+                android:layout_centerHorizontal="true"
+                android:text="Upload"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#5B8084">
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btnFavorites"
+                android:layout_centerHorizontal="true"
+                android:paddingBottom="20dp"
+                android:text="Favorites"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp" />
+
+            <ImageButton
+                android:id="@+id/btnFavorites"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="27dp"
+                android:background="@drawable/ic_presonal_favorites"
+                app:srcCompat="@android:color/transparent" />
+        </RelativeLayout>
+    </LinearLayout>
 
     <RelativeLayout
-        android:id="@+id/relativeLayout5"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignLeft="@+id/relativeLayout3"
-        android:layout_alignStart="@+id/relativeLayout3"
-        android:layout_below="@+id/textView7"
-        android:layout_marginTop="18dp">
+        android:layout_height="match_parent"
+        android:background="#486E76">
 
         <Button
+            android:id="@+id/btnLogout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:background="#40FFFFFF"
+            android:text="Logout"
+            android:textAllCaps="false"
+            android:textSize="28sp" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Download"
+            android:layout_below="@+id/btnDownload"
+            android:layout_centerHorizontal="true"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"/>
+
+        <ImageButton
             android:id="@+id/btnDownload"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
+            android:background="@drawable/ic_personal_download"
+            app:srcCompat="@android:color/transparent"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="44dp"
-            android:layout_marginStart="44dp"
-            android:background="@android:color/transparent"
-            android:gravity="fill_vertical"
-            android:paddingLeft="8dp"
-            android:text="Download" />
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="24dp" />
     </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/imageView13"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="11dp"
-        android:background="@drawable/ic_download_arrow"
-        app:srcCompat="@android:color/transparent"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_alignTop="@+id/relativeLayout5"
-        android:layout_alignLeft="@+id/textView7"
-        android:layout_alignStart="@+id/textView7" />
 
-
-</RelativeLayout>
+</LinearLayout>

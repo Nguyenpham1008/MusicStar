@@ -14,7 +14,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -32,17 +31,18 @@ import static android.content.Context.MODE_PRIVATE;
  */
 
 public class HomeFragment extends Fragment {
-    RelativeLayout linear_home;
-    TextView txtSong,txtSinger,txtStart,txtStop;
-    ImageButton btnListMusic,btnFavorite,btnPlay,btnNext,btnPrevious,btnSearch,btnMenu;
-    SeekBar seekBar;
+    private RelativeLayout linear_home;
+    private TextView txtSong,txtSinger,txtStart,txtStop;
+    private ImageButton btnListMusic,btnFavorite,btnPlay,btnNext,btnPrevious;
+    private SeekBar seekBar;
 
-    Animation animation;
     ImageView imgMusic;
 
     int REQUEST_LIST_MUSIC = 1;
+    int positionMusic;
     private Handler mHandler = new Handler();
 
+    //flag use to defide and change pause-play button
     int flagPlay=0;
     MediaPlayer mpintro = new MediaPlayer();
     int length;
@@ -57,7 +57,6 @@ public class HomeFragment extends Fragment {
         View view= inflater.inflate(R.layout.fragment_home, container, false);
         addControls(view);
         addEvents(view);
-        //linear_home.setBackgroundColor(Color.parseColor("#CFD8DC"));
         loadLastMusic();
         return view;
     }
@@ -90,6 +89,7 @@ public class HomeFragment extends Fragment {
                 String result=data.getStringExtra("filePath");
                 String title = data.getStringExtra("title");
                 String artish = data.getStringExtra("artish");
+                positionMusic = data.getIntExtra("position",1);
                 Music music= new Music(title,artish,result);
                 playOffline(music);
             }
@@ -137,6 +137,17 @@ public class HomeFragment extends Fragment {
 
             }
         });
+
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+    }
+
+    private void nextMusic() {
+
     }
 
     private void addControls(View view) {
@@ -159,20 +170,14 @@ public class HomeFragment extends Fragment {
         if(flagPlay%2==0)
         {
             {
-//                //Play again the previous music
-//                if (mpintro.getCurrentPosition() == 0) {
-//                    mpintro.start();
-//                    txtStart.setText("0:0");
-//                    runSeekBar();
-//                }
-                //Change icon when resume
-                btnPlay.setBackgroundResource(R.drawable.ic_pause_music);
-                //Start at the last positon
-                mpintro.seekTo(length);
-                mpintro.start();
-                flagPlay++;
-                runSeekBar();
-            }
+                    //Change icon when resume
+                    btnPlay.setBackgroundResource(R.drawable.ic_pause_music);
+                    //Start at the last positon
+                    mpintro.seekTo(length);
+                    mpintro.start();
+                    flagPlay++;
+                    runSeekBar();
+                }
         }else
         {
             //Change icon when pause
@@ -186,7 +191,7 @@ public class HomeFragment extends Fragment {
 
     private void playOnline(Music music)
     {
-        mpintro.release();
+        checkPlayingAndNull();
         txtSinger.setText(music.getSinger());
         txtSong.setText(music.getSong());
         String url = (music.getFilePath());
@@ -209,9 +214,8 @@ public class HomeFragment extends Fragment {
 
     private void playOffline(Music music)
     {
-        if(mpintro!=null) {
-            mpintro.release();
-        }
+        //if the previous isPlaying set flagPlay to change Play button
+        checkPlayingAndNull();
         mpintro = MediaPlayer.create(getActivity(), Uri.parse(music.getFilePath()));
 
         //Set Song and Singer
@@ -232,7 +236,6 @@ public class HomeFragment extends Fragment {
     private void runSeekBar()
     {
         getActivity().runOnUiThread(new Runnable() {
-
             @Override
             public void run() {
                 int currentDuration;
@@ -288,17 +291,23 @@ public class HomeFragment extends Fragment {
         return finalTimerString;
     }
 
-
     private void loadLastMusic()
     {
         SharedPreferences prefs = getActivity().getSharedPreferences(LAST_MUSIC, MODE_PRIVATE);
-        txtSong.setText(prefs.getString("song","1 2 3 4"));
-        txtSinger.setText(prefs.getString("singer","Chi Dân"));
-        txtStop.setText(prefs.getString("time","0:0"));
-        String filePath = prefs.getString("filePath","/storage/emulated/0/Download/1234-Chi-Dan.mp3");
-        mpintro = MediaPlayer.create(getActivity(), Uri.parse(filePath));
+            txtSong.setText(prefs.getString("song", "Unknown"));
+            txtSinger.setText(prefs.getString("singer", "Unknown"));
+            txtStop.setText(prefs.getString("time", "0:0"));
+            String filePath = prefs.getString("filePath", "");
+            mpintro = MediaPlayer.create(getActivity(), Uri.parse(filePath));
+        try{
+            seekBar.setMax(mpintro.getDuration());
+        }catch (NullPointerException ex){
+
     }
 
+    }
+
+    //Use SharePreferences save data
     private void saveLastMusic(String song,String singer,String filePath,String time)
     {
         SharedPreferences.Editor editor = getActivity().getSharedPreferences(LAST_MUSIC, MODE_PRIVATE).edit();
@@ -310,4 +319,15 @@ public class HomeFragment extends Fragment {
 
     }
 
+    private void checkPlayingAndNull()
+    {
+        try {
+            if (mpintro.isPlaying()) {
+                flagPlay++;
+            }
+        }catch (NullPointerException ex){}
+        if (mpintro != null) {
+            mpintro.release();
+        }
+    }
 }

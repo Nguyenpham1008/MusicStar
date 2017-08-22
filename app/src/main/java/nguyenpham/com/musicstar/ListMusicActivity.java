@@ -58,6 +58,7 @@ public class ListMusicActivity extends AppCompatActivity {
                 returnIntent.putExtra("filePath",filePath);
                 returnIntent.putExtra("title",title);
                 returnIntent.putExtra("artish",artish);
+                returnIntent.putExtra("position",i);
                 setResult(Activity.RESULT_OK,returnIntent);
                 finish();
             }
@@ -72,15 +73,12 @@ public class ListMusicActivity extends AppCompatActivity {
         showListMusic();
         arrayAdapter = new ListMusicAdapter(ListMusicActivity.this,R.layout.layout_list_music,listTitle);
         lv.setAdapter(arrayAdapter);
-
-
     }
 
     private void showListMusic() {
         //Open database
         database=openOrCreateDatabase(DATABASE_NAME,MODE_PRIVATE,null);
         Cursor cursor=database.query("Music",null,null,null,null,null,null);
-        //Cursor cursor2=database.rawQuery("select * from Contact",null);
         listTitle.clear();
         while (cursor.moveToNext())
         {
@@ -92,6 +90,4 @@ public class ListMusicActivity extends AppCompatActivity {
         }
         cursor.close();//close connection
     }
-
-
 }
