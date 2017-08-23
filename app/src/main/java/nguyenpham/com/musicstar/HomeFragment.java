@@ -146,9 +146,6 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void nextMusic() {
-
-    }
 
     private void addControls(View view) {
         txtSong = view.findViewById(R.id.txtNameSong);
@@ -329,5 +326,9 @@ public class HomeFragment extends Fragment {
         if (mpintro != null) {
             mpintro.release();
         }
+    }
+
+    public void nextMusic() {
+
     }
 }
